@@ -6,7 +6,8 @@ CCASM = as
 NAME = kern
 objects = 	obj/loader.o \
 			obj/kernel.o \
-			obj/gdt.o
+			obj/gdt.o \
+			obj/port.o
 
 
 GCCINC = -I inc/
@@ -45,6 +46,13 @@ obj/%.o: src/%.s obj
 install: mykernel.bin
 	sudo cp $< /boot/mykernel.bin
 
+
+
+# Programable interrupt controller 
+#  PIC 
+
+.PHONY: clean fclean re
+
 clean : 
 	rm -rf obj
 
@@ -53,6 +61,3 @@ fclean : clean
 	rm -rf $(NAME).iso
 
 re: fclean run
-
-# Programable interrupt controller 
-#  PIC 
