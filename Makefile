@@ -7,8 +7,9 @@ NAME = kern
 objects = 	obj/loader.o \
 			obj/kernel.o \
 			obj/gdt.o \
-			obj/port.o
-
+			obj/port.o \
+			obj/interrupts.o \
+			obj/interruptstubs.o
 
 GCCINC = -I inc/
 
