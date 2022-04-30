@@ -9,7 +9,8 @@ objects = 	obj/loader.o \
 			obj/gdt.o \
 			obj/port.o \
 			obj/interrupts.o \
-			obj/interruptstubs.o
+			obj/interruptstubs.o \
+			obj/keyboard.o
 
 GCCINC = -I inc/
 
