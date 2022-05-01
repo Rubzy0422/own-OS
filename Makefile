@@ -10,8 +10,9 @@ objects = 	obj/loader.o \
 			obj/port.o \
 			obj/interrupts.o \
 			obj/interruptstubs.o \
-			obj/drivers/keyboard.o\
-			obj/drivers/mouse.o
+			obj/drivers/driver.o\
+				obj/drivers/keyboard.o\
+				obj/drivers/mouse.o
 
 GCCINC = -I inc/ -I inc/drivers -I inc/kernel
 

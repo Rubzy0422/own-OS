@@ -2,7 +2,7 @@
 #define __GDT_H 
     #define CODE_SEGMENT_SELECTOR_SIZE 64*1024*1024
     #define DATA_SEGMENT_SELECTOR_SIZE 64*1024*1024    
-    #include "types.h"
+    #include <types.h>
 
     class GlobalDescriptorTable
     {

@@ -1,12 +1,34 @@
 
 #include <keyboard.h>
 
+void printf(char* value);
+void printfHex(uint8_t key);
 
 
-KeyboardDriver::KeyboardDriver(InterruptManager* manager)
+KeyboardEventHandler::KeyboardEventHandler(/* args */) {
+}
+
+KeyboardEventHandler::~KeyboardEventHandler() {
+}
+
+void KeyboardEventHandler::OnKeyDown(char) {
+
+}
+
+void KeyboardEventHandler::OnKeyUp(char) {
+
+}
+
+
+KeyboardDriver::KeyboardDriver(InterruptManager* manager, KeyboardEventHandler* handler)
 : InterruptHandler(0x21, manager),
 dataport(0x60),
 commandport(0x64)
+{
+    this->handler = handler;
+}
+
+void KeyboardDriver::Activate() 
 {
     while(commandport.Read() & 0x1)
         dataport.Read();
@@ -22,13 +44,13 @@ KeyboardDriver::~KeyboardDriver()
 {
 }
 
-void printf(char*);
-
 
 uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp)
 {
     uint8_t key = dataport.Read();
-       
+    if (handler == 0)
+        return esp; 
+
         switch(key)
         {
             static bool shift = false;
@@ -78,67 +100,67 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp)
             case 0x4D: break;//right
 
             // case 0x37: printf("*");
-            case 0x4A: printf("-");
-            case 0x4E: printf("+");
-            case 0x4C: printf("5");
+            case 0x4A: handler->OnKeyDown('-');
+            case 0x4E: handler->OnKeyDown('+');
+            case 0x4C: handler->OnKeyDown('5');
 
 
 
-            case 0x29: shift ? printf("~") : printf("`"); break;
-            case 0x02: shift ? printf("!") : printf("1"); break;
-            case 0x03: shift ? printf("@") : printf("2"); break;
-            case 0x04: shift ? printf("#") : printf("3"); break;
-            case 0x05: shift ? printf("$") : printf("4"); break;
-            case 0x06: shift ? printf("%") : printf("5"); break;
-            case 0x07: shift ? printf("^") : printf("6"); break;
-            case 0x08: shift ? printf("&") : printf("7"); break;
-            case 0x09: shift ? printf("*") : printf("8"); break;
-            case 0x0A: shift ? printf("(") : printf("9"); break;
-            case 0x0B: shift ? printf(")") : printf("0"); break;
-            case 0x0C: shift ? printf("_") : printf("-"); break;
-            case 0x0D: shift ? printf("+") : printf("+"); break;
+            case 0x29: shift ? handler->OnKeyDown('~') : handler->OnKeyDown('`'); break;
+            case 0x02: shift ? handler->OnKeyDown('!') : handler->OnKeyDown('1'); break;
+            case 0x03: shift ? handler->OnKeyDown('@') : handler->OnKeyDown('2'); break;
+            case 0x04: shift ? handler->OnKeyDown('#') : handler->OnKeyDown('3'); break;
+            case 0x05: shift ? handler->OnKeyDown('$') : handler->OnKeyDown('4'); break;
+            case 0x06: shift ? handler->OnKeyDown('%') : handler->OnKeyDown('5'); break;
+            case 0x07: shift ? handler->OnKeyDown('^') : handler->OnKeyDown('6'); break;
+            case 0x08: shift ? handler->OnKeyDown('&') : handler->OnKeyDown('7'); break;
+            case 0x09: shift ? handler->OnKeyDown('*') : handler->OnKeyDown('8'); break;
+            case 0x0A: shift ? handler->OnKeyDown('(') : handler->OnKeyDown('9'); break;
+            case 0x0B: shift ? handler->OnKeyDown(')') : handler->OnKeyDown('0'); break;
+            case 0x0C: shift ? handler->OnKeyDown('_') : handler->OnKeyDown('-'); break;
+            case 0x0D: shift ? handler->OnKeyDown('+') : handler->OnKeyDown('+'); break;
 
-            case 0x10: shift ^ capslock ? printf("Q") : printf("q"); break;
-            case 0x11: shift ^ capslock ? printf("W") : printf("w"); break;
-            case 0x12: shift ^ capslock ? printf("E") : printf("e"); break;
-            case 0x13: shift ^ capslock ? printf("R") : printf("r"); break;
-            case 0x14: shift ^ capslock ? printf("T") : printf("t"); break;
-            case 0x15: shift ^ capslock ? printf("Y") : printf("y"); break;
-            case 0x16: shift ^ capslock ? printf("U") : printf("u"); break;
-            case 0x17: shift ^ capslock ? printf("I") : printf("i"); break;
-            case 0x18: shift ^ capslock ? printf("O") : printf("o"); break;
-            case 0x19: shift ^ capslock ? printf("P") : printf("p"); break;
-            case 0x1A: shift ? printf("{") : printf("["); break;
-            case 0x1B: shift ? printf("}") : printf("]"); break;
-            case 0x2B: shift ? printf("|") : printf("\\"); break;
+            case 0x10: shift ^ capslock ? handler->OnKeyDown('Q') : handler->OnKeyDown('q'); break;
+            case 0x11: shift ^ capslock ? handler->OnKeyDown('W') : handler->OnKeyDown('w'); break;
+            case 0x12: shift ^ capslock ? handler->OnKeyDown('E') : handler->OnKeyDown('e'); break;
+            case 0x13: shift ^ capslock ? handler->OnKeyDown('R') : handler->OnKeyDown('r'); break;
+            case 0x14: shift ^ capslock ? handler->OnKeyDown('T') : handler->OnKeyDown('t'); break;
+            case 0x15: shift ^ capslock ? handler->OnKeyDown('Y') : handler->OnKeyDown('y'); break;
+            case 0x16: shift ^ capslock ? handler->OnKeyDown('U') : handler->OnKeyDown('u'); break;
+            case 0x17: shift ^ capslock ? handler->OnKeyDown('I') : handler->OnKeyDown('i'); break;
+            case 0x18: shift ^ capslock ? handler->OnKeyDown('O') : handler->OnKeyDown('o'); break;
+            case 0x19: shift ^ capslock ? handler->OnKeyDown('P') : handler->OnKeyDown('p'); break;
+            case 0x1A: shift ? handler->OnKeyDown('{') : handler->OnKeyDown('['); break;
+            case 0x1B: shift ? handler->OnKeyDown('}') : handler->OnKeyDown(']'); break;
+            case 0x2B: shift ? handler->OnKeyDown('|') : handler->OnKeyDown('\\'); break;
             
-            case 0x1E: shift ^ capslock ? printf("A") : printf("a"); break;
-            case 0x1F: shift ^ capslock ? printf("S") : printf("s"); break;
-            case 0x20: shift ^ capslock ? printf("D") : printf("d"); break;
-            case 0x21: shift ^ capslock ? printf("F") : printf("f"); break;
-            case 0x22: shift ^ capslock ? printf("G") : printf("g"); break;
-            case 0x23: shift ^ capslock ? printf("H") : printf("h"); break;
-            case 0x24: shift ^ capslock ? printf("J") : printf("j"); break;
-            case 0x25: shift ^ capslock ? printf("K") : printf("k"); break;
-            case 0x26: shift ^ capslock ? printf("L") : printf("l"); break;
-            case 0x27: shift ? printf(":") : printf(";"); break;
-            case 0x28: shift ? printf("\"") : printf("'"); break;
+            case 0x1E: shift ^ capslock ? handler->OnKeyDown('A') : handler->OnKeyDown('a'); break;
+            case 0x1F: shift ^ capslock ? handler->OnKeyDown('S') : handler->OnKeyDown('s'); break;
+            case 0x20: shift ^ capslock ? handler->OnKeyDown('D') : handler->OnKeyDown('d'); break;
+            case 0x21: shift ^ capslock ? handler->OnKeyDown('F') : handler->OnKeyDown('f'); break;
+            case 0x22: shift ^ capslock ? handler->OnKeyDown('G') : handler->OnKeyDown('g'); break;
+            case 0x23: shift ^ capslock ? handler->OnKeyDown('H') : handler->OnKeyDown('h'); break;
+            case 0x24: shift ^ capslock ? handler->OnKeyDown('J') : handler->OnKeyDown('j'); break;
+            case 0x25: shift ^ capslock ? handler->OnKeyDown('K') : handler->OnKeyDown('k'); break;
+            case 0x26: shift ^ capslock ? handler->OnKeyDown('L') : handler->OnKeyDown('l'); break;
+            case 0x27: shift ? handler->OnKeyDown(':') : handler->OnKeyDown(';'); break;
+            case 0x28: shift ? handler->OnKeyDown('\'') : handler->OnKeyDown('"'); break;
 
-            case 0x2C: shift ^ capslock ? printf("Z") : printf("z"); break;
-            case 0x2D: shift ^ capslock ? printf("X") : printf("x"); break;
-            case 0x2E: shift ^ capslock ? printf("C") : printf("c"); break;
-            case 0x2F: shift ^ capslock ? printf("V") : printf("v"); break;
-            case 0x30: shift ^ capslock ? printf("B") : printf("b"); break;
-            case 0x31: shift ^ capslock ? printf("N") : printf("n"); break;
-            case 0x32: shift ^ capslock ? printf("M") : printf("m"); break;
-            case 0x33: shift ? printf("<") : printf(","); break;
-            case 0x34: shift ? printf(">") : printf("."); break;
-            case 0x35: shift ? printf("?") : printf("/"); break;
+            case 0x2C: shift ^ capslock ? handler->OnKeyDown('Z') : handler->OnKeyDown('z'); break;
+            case 0x2D: shift ^ capslock ? handler->OnKeyDown('X') : handler->OnKeyDown('x'); break;
+            case 0x2E: shift ^ capslock ? handler->OnKeyDown('C') : handler->OnKeyDown('c'); break;
+            case 0x2F: shift ^ capslock ? handler->OnKeyDown('V') : handler->OnKeyDown('v'); break;
+            case 0x30: shift ^ capslock ? handler->OnKeyDown('B') : handler->OnKeyDown('b'); break;
+            case 0x31: shift ^ capslock ? handler->OnKeyDown('N') : handler->OnKeyDown('n'); break;
+            case 0x32: shift ^ capslock ? handler->OnKeyDown('M') : handler->OnKeyDown('m'); break;
+            case 0x33: shift ? handler->OnKeyDown('<') : handler->OnKeyDown(','); break;
+            case 0x34: shift ? handler->OnKeyDown('>') : handler->OnKeyDown('.'); break;
+            case 0x35: shift ? handler->OnKeyDown('?') : handler->OnKeyDown('/'); break;
             
 
-            case 0x1C: printf("\n"); break;
-            case 0x0f: printf("    "); break; // tab simulate 4 spaces
-            case 0x39: printf(" "); break;
+            case 0x1C: handler->OnKeyDown('\n'); break;
+            // case 0x0f: handler->OnKeyDown('    '); break; // tab simulate 4 spaces
+            case 0x39: handler->OnKeyDown(' '); break;
 
             // Press Shift
             case 0x2A: case 0x36: shift = true; break;
@@ -148,14 +170,8 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp)
             default:
             if(key < 0x80)
             {
-                {
-                    char* foo = "KEYBOARD 0x00\n";
-                    char* hex = "0123456789ABCDEF";
-                    foo[11] = hex[(key >> 4) & 0xF];
-                    foo[12] = hex[key & 0xF];
-                    printf(foo);
-                    break;
-                }
+               printf("KEYBOARD 0x");
+               printfHex(key);
             }
     }
     return esp;
