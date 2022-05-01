@@ -1,18 +1,19 @@
-GCCPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -g -fno-stack-protector
+GCCPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore -g -fno-stack-protector -Wno-write-strings
 ASPARAMS = --32
 LDPARAMS = -melf_i386
 CC = gcc
 CCASM = as
 NAME = kern
 objects = 	obj/loader.o \
-			obj/kernel.o \
+			obj/kernel/kernel.o \
 			obj/gdt.o \
 			obj/port.o \
 			obj/interrupts.o \
 			obj/interruptstubs.o \
-			obj/keyboard.o
+			obj/drivers/keyboard.o\
+			obj/drivers/mouse.o
 
-GCCINC = -I inc/
+GCCINC = -I inc/ -I inc/drivers -I inc/kernel
 
 
 run: $(NAME).iso 
@@ -37,6 +38,8 @@ $(NAME).bin: src/linker.ld $(objects)
 
 obj: 
 	mkdir obj
+	mkdir obj/kernel
+	mkdir obj/drivers
 
 obj/%.o: src/%.cpp obj
 	$(CC) $(GCCPARAMS) $(GCCINC) -c -o $@ $<

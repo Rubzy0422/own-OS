@@ -61,7 +61,8 @@ InterruptManager::InterruptManager(uint16_t hardwareInterruptOffset, GlobalDescr
 
     SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x00, CodeSegment, &HandleInterruptRequest0x00, 0, IDT_INTERRUPT_GATE);
     SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x01, CodeSegment, &HandleInterruptRequest0x01, 0, IDT_INTERRUPT_GATE);
-    
+    SetInterruptDescriptorTableEntry(hardwareInterruptOffset + 0x2C, CodeSegment, &HandleInterruptRequest0x0C, 0, IDT_INTERRUPT_GATE);
+
     PICMasterCommandPort.Write(0x11);
     PICSlaveCommandPort.Write(0x11);
 
