@@ -72,9 +72,9 @@
             uint32_t DoHandleInterrupt(uint8_t intterruptnumber, uint32_t esp);
 
             static void InterruptIgnore();
-            static void HandleInterruptRequest0x00();
-            static void HandleInterruptRequest0x01();
-            static void HandleInterruptRequest0x0C();
+            static void HandleInterruptRequest0x00(); // handle ignore
+            static void HandleInterruptRequest0x01(); // handle keyboard
+            static void HandleInterruptRequest0x0C(); // handle mouse
           
 
 

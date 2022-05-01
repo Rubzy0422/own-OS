@@ -22,9 +22,9 @@ _ZN16InterruptManager26HandleInterruptRequest\num\()Ev:
     jmp int_bottom
 .endm
 
-HandleInterruptRequest 0x00
-HandleInterruptRequest 0x01
-HandleInterruptRequest 0x0C
+HandleInterruptRequest 0x00 # ignore
+HandleInterruptRequest 0x01 # keyboard
+HandleInterruptRequest 0x0C # mouse
 int_bottom:
 
     pusha
@@ -36,7 +36,7 @@ int_bottom:
     pushl %esp
     push (interruptnumber)
     call _ZN16InterruptManager15HandleInterruptEhj
-    ; add %esp, 6
+    # add %esp, 6
     mov %eax, %esp 
 
     pop %gs
