@@ -5,22 +5,28 @@ using namespace kernelos::common;
 using namespace kernelos::drivers;
 using namespace kernelos::hardwarecommunication;
 
+void printf(char* value);
+void printfHex(uint8_t key);
+
+// ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
     MouseEventHandler::MouseEventHandler() {
 
     }
 
- 
+ // ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
     void MouseEventHandler::OnActivate() {
     }
 
+// ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
     void MouseEventHandler::OnMouseDown(uint8_t btn) {
 
     }
-
+// ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
     void MouseEventHandler::OnMouseUp(uint8_t btn) {
 
     }
 
+// ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
     void MouseEventHandler::OnMouseMove(int x, int y) {
 
     }
@@ -89,6 +95,5 @@ using namespace kernelos::hardwarecommunication;
             }
             buttons = buffer[0];
         }
-        
         return esp;
     }

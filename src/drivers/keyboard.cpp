@@ -9,16 +9,19 @@ void printf(char* value);
 void printfHex(uint8_t key);
 
 
+// ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
 KeyboardEventHandler::KeyboardEventHandler(/* args */) {
 }
 
+// ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
 KeyboardEventHandler::~KeyboardEventHandler() {
 }
 
-void KeyboardEventHandler::OnKeyDown(char) {
-
+// ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
+void KeyboardEventHandler::OnKeyDown(char c) {
 }
 
+// ABSTRACTION (does not contain the code for the event. Please reffer to the handler that it was built with) 
 void KeyboardEventHandler::OnKeyUp(char) {
 
 }
@@ -53,8 +56,8 @@ uint32_t KeyboardDriver::HandleInterrupt(uint32_t esp)
 {
     uint8_t key = dataport.Read();
     if (handler == 0)
-        return esp; 
-
+         return esp; 
+   
         switch(key)
         {
             static bool shift = false;
