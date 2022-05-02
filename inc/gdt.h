@@ -2,7 +2,12 @@
 #define __GDT_H 
     #define CODE_SEGMENT_SELECTOR_SIZE 64*1024*1024
     #define DATA_SEGMENT_SELECTOR_SIZE 64*1024*1024    
-    #include <types.h>
+    #include <common/types.h>
+
+namespace kernelos
+{
+    
+
 
     class GlobalDescriptorTable
     {
@@ -10,16 +15,16 @@
             class SegmentDescriptor
             {
                 private:
-                    uint16_t limit_lo;
-                    uint16_t base_lo;
-                    uint8_t base_hi;
-                    uint8_t type;
-                    uint8_t flags_limit_hi;
-                    uint8_t base_vhi;
+                    kernelos::common::uint16_t limit_lo;
+                    kernelos::common::uint16_t base_lo;
+                    kernelos::common::uint8_t base_hi;
+                    kernelos::common::uint8_t type;
+                    kernelos::common::uint8_t flags_limit_hi;
+                    kernelos::common::uint8_t base_vhi;
                 public:
-                    SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t type);
-                    uint32_t Base();
-                    uint32_t Limit();
+                    SegmentDescriptor(kernelos::common::uint32_t base, kernelos::common::uint32_t limit, kernelos::common::uint8_t type);
+                    kernelos::common::uint32_t Base();
+                    kernelos::common::uint32_t Limit();
 
             }   __attribute__((packed));
 
@@ -34,8 +39,8 @@
         GlobalDescriptorTable();
         ~GlobalDescriptorTable();
 
-        uint16_t CodeSegmentSelector();
-        uint16_t DataSegmentSelector();
+        kernelos::common::uint16_t CodeSegmentSelector();
+        kernelos::common::uint16_t DataSegmentSelector();
     };
-
+} // namespace kernelos
 #endif

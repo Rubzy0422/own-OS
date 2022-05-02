@@ -1,5 +1,10 @@
 
-#include <mouse.h>
+#include <drivers/mouse.h>
+
+using namespace kernelos::common;
+using namespace kernelos::drivers;
+using namespace kernelos::hardwarecommunication;
+
     MouseEventHandler::MouseEventHandler() {
 
     }

@@ -1,6 +1,12 @@
-#ifndef __TYPES_H 
-#define __TYPES_H
-    // Char
+#ifndef __COMMON_TYPES_H 
+#define __COMMON_TYPES_H
+
+namespace kernelos
+{
+
+    namespace common
+    {
+        // Char
     typedef char int8_t;
     typedef unsigned char uint8_t;
     // short 
@@ -12,4 +18,8 @@
     // long 
     typedef long long int int64_t;
     typedef unsigned  long long int uint64_t;
+    } // namespace common
+    
+    
+}  
 # endif

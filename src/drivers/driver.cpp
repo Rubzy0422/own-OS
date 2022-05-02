@@ -1,6 +1,10 @@
 
-#include "driver.h"
- 
+#include <drivers/driver.h>
+#include <common/types.h>
+
+
+using namespace kernelos::drivers;
+
 Driver::Driver()
 {
 }

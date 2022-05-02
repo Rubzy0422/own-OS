@@ -1,5 +1,9 @@
 
-#include <keyboard.h>
+#include <drivers/keyboard.h>
+
+using namespace kernelos::common;
+using namespace kernelos::drivers;
+using namespace kernelos::hardwarecommunication;
 
 void printf(char* value);
 void printfHex(uint8_t key);

@@ -1,39 +1,43 @@
 
-#ifndef __MOUSE_H
-#define __MOUSE_H
+#ifndef __DRIVERS_MOUSE_H
+#define __DRIVERS_MOUSE_H
 
-    #include "types.h"
-    #include "port.h"
-    #include "driver.h"
-    #include "interrupts.h"
 
+    #include <common/types.h>
+    #include <hardwarecommunication/port.h>
+    #include <drivers/driver.h>
+    #include <hardwarecommunication/interrupts.h>
+
+namespace kernelos {
+    namespace drivers {
     
     class MouseEventHandler
     {
-    public:
-        MouseEventHandler();
+        public:
+            MouseEventHandler();
 
-        virtual void OnActivate();
-        virtual void OnMouseDown(uint8_t button);
-        virtual void OnMouseUp(uint8_t button);
-        virtual void OnMouseMove(int x, int y);
-    };
-    
-    
-    class MouseDriver : public InterruptHandler, public Driver
-    {
-        Port8Bit dataport;
-        Port8Bit commandport;
-        uint8_t buffer[3];
-        uint8_t offset;
-        uint8_t buttons;
+            virtual void OnActivate();
+            virtual void OnMouseDown(kernelos::common::uint8_t button);
+            virtual void OnMouseUp(kernelos::common::uint8_t button);
+            virtual void OnMouseMove(int x, int y);
+        };
 
-        MouseEventHandler* handler;
-    public:
-        MouseDriver(InterruptManager* manager, MouseEventHandler* handler);
-        ~MouseDriver();
-        virtual uint32_t HandleInterrupt(uint32_t esp);
-        virtual void Activate();
-    };
 
+        class MouseDriver : public kernelos::hardwarecommunication::InterruptHandler, public Driver
+        {
+            kernelos::hardwarecommunication::Port8Bit dataport;
+            kernelos::hardwarecommunication::Port8Bit commandport;
+            kernelos::common::uint8_t buffer[3];
+            kernelos::common::uint8_t offset;
+            kernelos::common::uint8_t buttons;
+
+            MouseEventHandler* handler;
+        public:
+            MouseDriver(kernelos::hardwarecommunication::InterruptManager* manager, MouseEventHandler* handler);
+            ~MouseDriver();
+            virtual kernelos::common::uint32_t HandleInterrupt(kernelos::common::uint32_t esp);
+            virtual void Activate();
+        };
+    }
+}
 #endif

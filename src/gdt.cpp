@@ -1,4 +1,6 @@
 #include <gdt.h>
+using namespace kernelos;
+using namespace kernelos::common;
 
 
 uint32_t __stack_chk_fail_local(){

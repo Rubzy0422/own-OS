@@ -5,16 +5,16 @@ CC = gcc
 CCASM = as
 NAME = kern
 objects = 	obj/loader.o \
-			obj/kernel/kernel.o \
-			obj/gdt.o \
-			obj/port.o \
-			obj/interrupts.o \
-			obj/interruptstubs.o \
+			obj/hardwarecommunication/interruptstubs.o \
+			obj/kernel.o \
+			obj/drivers/keyboard.o\
+			obj/drivers/mouse.o\
 			obj/drivers/driver.o\
-				obj/drivers/keyboard.o\
-				obj/drivers/mouse.o
+			obj/hardwarecommunication/port.o\
+			obj/hardwarecommunication/interrupts.o\
+			obj/gdt.o
 
-GCCINC = -I inc/ -I inc/drivers -I inc/kernel
+GCCINC = -I inc/
 
 
 run: $(NAME).iso 
@@ -39,7 +39,8 @@ $(NAME).bin: src/linker.ld $(objects)
 
 obj: 
 	mkdir obj
-	mkdir obj/kernel
+	# mkdir obj/common
+	mkdir obj/hardwarecommunication
 	mkdir obj/drivers
 
 obj/%.o: src/%.cpp obj

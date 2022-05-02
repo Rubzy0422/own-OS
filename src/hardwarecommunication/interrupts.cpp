@@ -1,5 +1,8 @@
 
-#include <interrupts.h>
+#include <hardwarecommunication/interrupts.h>
+
+using namespace kernelos::common;
+using namespace kernelos::hardwarecommunication;
 
 
 void printf(char* value);
