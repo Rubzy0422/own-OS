@@ -8,7 +8,8 @@ namespace kernelos
 {
     
 
-
+    // FLAT segment descriptor table 
+    // update to paging ? 
     class GlobalDescriptorTable
     {
         public:
@@ -33,7 +34,7 @@ namespace kernelos
         SegmentDescriptor codeSegmentSelector;
         SegmentDescriptor dataSegmentSelector;
 
-        // Security conserne
+        // Security consern
 
     public:
         GlobalDescriptorTable();

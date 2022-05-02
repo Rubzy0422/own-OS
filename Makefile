@@ -12,7 +12,8 @@ objects = 	obj/loader.o \
 			obj/drivers/driver.o\
 			obj/hardwarecommunication/port.o\
 			obj/hardwarecommunication/interrupts.o\
-			obj/gdt.o
+			obj/gdt.o\
+			obj/hardwarecommunication/pci.o
 
 GCCINC = -I inc/
 

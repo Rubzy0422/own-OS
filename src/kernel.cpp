@@ -5,12 +5,14 @@
 #include <drivers/keyboard.h>
 #include <drivers/mouse.h>
 
+#include <hardwarecommunication/pci.h>
+
 using namespace kernelos;
 using namespace kernelos::common;
 using namespace kernelos::drivers;
 using namespace kernelos::hardwarecommunication;
 
-//  Start printf 
+//  Start printf put to own with unix colors
 void printf(char* str)
 {
     static uint16_t* VideoMemory = (uint16_t*)0xb8000;
@@ -151,7 +153,8 @@ extern "C" void kernelMain(const void* multiboot_structure, uint32_t /*multiboot
         drvManager.AddDriver(&keyboard);
     
         
-        
+        PeripheralComponentInterfaceController PCIController;
+        PCIController.SelectDrivers(&drvManager);
 
     printf("Initializing Hardware, Stage 2\n");
         drvManager.ActivateAll();
